@@ -6,6 +6,7 @@ To use this, firstly have Git installed on your device.
 Firstly, clone this project to your local repo.
 ```
 git clone https://github.com/sanosenx86/loot-quest-helper.git
+```
 
 Then install dependent packages:
 ``` 
