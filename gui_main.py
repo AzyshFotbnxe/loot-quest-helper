@@ -38,8 +38,8 @@ class Application(tk.Frame):
         button_register=tk.Button(frame1_1, text='register', command=self.__on_register)
         button_register.grid(row=0)
 
-        button_unregister=tk.Button(frame1_1, text='unregister', command=self.__on_unregister)
-        button_unregister.grid(row=1)
+        button_deregister=tk.Button(frame1_1, text='deregister', command=self.__on_deregister)
+        button_deregister.grid(row=1)
 
         button_manager=tk.Button(frame1_1, text="save manager", command=self.__on_manager)
         button_manager.grid(row=2)
@@ -65,7 +65,7 @@ class Application(tk.Frame):
 
     def __on_register(self):
         try:
-            self.__on_unregister()
+            self.__on_deregister()
             self.__last_register = keyboard.add_hotkey(KEYS["START"], self.__enter_code_helper, args=())
             self.sv_status.set("Registered")
             self.entry_code['state']=tk.DISABLED
@@ -76,7 +76,7 @@ class Application(tk.Frame):
         self.__thread = t_enter_code(self.sv_code.get(), KEYS)
         self.__thread.start()
 
-    def __on_unregister(self):
+    def __on_deregister(self):
         try:
             if self.__last_register: keyboard.remove_hotkey(self.__last_register)
             if self.__thread: stop_thread(self.__thread)

@@ -4,6 +4,14 @@ Loot Quest is a RPG workshop mode in Overwatch.
 For more details about Loot Quest, please see https://us.forums.blizzard.com/en/overwatch/t/367704  
 Special thanks to *Ciege#8558* who provided the core function to make this possible.
 
+## Features
+
+1. Thanks to Ciege, the basic function of this is to input the save code automatically.
+2. Local save manager is finished.  
+    Store saved codes locally then next time it can be picked out from GUI rather than typing it again
+3. Multithreading.  
+    Now during the input process, click "unregister" can stop typing. (Will fix that to deregister.)
+
 ## Usage
 To use this, please have Git installed on your device in advance.
 
@@ -23,12 +31,8 @@ python gui_main.py
 ```
 
 ## Future features: 
-(These ~~will~~ may never be actually implemented)
-1. Multithreading  
-    Allows user interrupt the input when something goes wrong.
-2. Local save manager (working on)  
-    Store saved codes locally then next time it can be picked out from GUI rather than typing it again.
-3. Customized hotkey binding  
+(These ~~will never~~ may not be actually implemented)
+* Customized hotkey binding  
     Allows user to change what key they want to use in both Overwatch and in this helper.
-4. (Very unlikely to be implemented) Automatically recognize save code from screenshot.  
+* (Very unlikely to be implemented) Automatically recognize save code from screenshot.  
     Some CV stuff involved.
