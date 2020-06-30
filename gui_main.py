@@ -1,6 +1,8 @@
 import tkinter as tk
 import keyboard
+from general_lib import formatcode
 from input_core import effector
+
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -47,22 +49,13 @@ class Application(tk.Frame):
         is_insert=self.entry_code.index('insert')==len(tmp)
         cursor_position=self.entry_code.index('insert')
         code=tmp.replace('-','')[:40]
-        code=self.__formatcode(code)
+        code=formatcode(code)
         self.entry_code.delete(0, 'end')
         self.entry_code.insert(0, code)
         if(is_insert): 
             self.entry_code.icursor("end")
         else:
             self.entry_code.icursor(cursor_position)
-
-    def __formatcode(self, code):
-        tmp=''
-        while(len(code)>3):
-            tmp+=code[:4]+'-'
-            code=code[4:]
-        tmp+=code
-        if tmp[-1]=='-':tmp=tmp[:-1]
-        return tmp
 
     def __on_register(self):
         try:
