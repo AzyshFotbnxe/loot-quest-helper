@@ -1,6 +1,6 @@
 import tkinter as tk
 import keyboard
-from general_lib import format_code, enter_code, KEYS
+from general_lib import formatcode, enter_code, KEYS
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -46,7 +46,7 @@ class Application(tk.Frame):
         is_insert=self.entry_code.index('insert')==len(tmp)
         cursor_position=self.entry_code.index('insert')
         code=tmp.replace('-','')[:40]
-        code=format_code(code)
+        code=formatcode(code)
         self.entry_code.delete(0, 'end')
         self.entry_code.insert(0, code)
         if(is_insert): 

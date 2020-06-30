@@ -17,14 +17,8 @@ def enter_code(code, keys):
                 pyautogui.typewrite([keys["INCREMENT"]] * digit, interval=0.1)
             pyautogui.typewrite([keys["ADVANCE"]], interval = 0.1)
 
-def filter_code(code):
-    tmp=filter(lambda ch: ch in '0123456789-', code)
-    tmp="".join(list(tmp))
-    return tmp
-
-def format_code(code):
+def formatcode(code):
     tmp=''
-    code = filter_code(code) #always filter. Totally optional.
     while(len(code)>3):
         tmp+=code[:4]+'-'
         code=code[4:]
