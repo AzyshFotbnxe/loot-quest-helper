@@ -1,5 +1,5 @@
 import tkinter as tk 
-from general_lib import formatcode
+from general_lib import format_code
 import json
 
 class save_manager(tk.Frame):
