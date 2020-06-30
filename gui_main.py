@@ -30,7 +30,8 @@ class Application(tk.Frame):
         "{} as decrement the number (melee) \r".format(KEYS["DECREMENT"]) + 
         "{} as advance (crouch) \r".format(KEYS["ADVANCE"]) +
         "{} as item only (reload) \r".format(KEYS["ITEMONLY"]) +
-        "after register, press {} to activate".format(KEYS["START"])
+        "after register, \r" + 
+        "press {} to start, {} to stop.".format(KEYS["START"], KEYS["STOP"]) 
         )
         label_notice.grid(row=0, column=0)
 
@@ -75,7 +76,7 @@ class Application(tk.Frame):
     def __on_register(self):
         try:
             self.__on_deregister()
-            self.__last_register = keyboard.add_hotkey(KEYS["START"], self.__enter_code_helper, args=())
+            self.__last_register = [keyboard.add_hotkey(KEYS["START"], self.__enter_code_helper, args=()), keyboard.add_hotkey(KEYS["STOP"], self.__on_deregister, args=())]
             self.sv_status.set("Registered")
             self.entry_code['state']=tk.DISABLED
             self.checkbox_item['state']=tk.DISABLED
@@ -89,7 +90,9 @@ class Application(tk.Frame):
 
     def __on_deregister(self):
         try:
-            if self.__last_register: keyboard.remove_hotkey(self.__last_register)
+            if self.__last_register: 
+                for i in self.__last_register:
+                    keyboard.remove_hotkey(i)
             if self.__thread: stop_thread(self.__thread)
         finally:
             self.__last_register = None
