@@ -1,7 +1,7 @@
 import tkinter as tk
 import keyboard
 from save_manager import save_manager as mgr
-from general_lib import format_code, enter_code, KEYS
+from general_lib import KEYS, stop_thread, format_code, t_enter_code
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -10,6 +10,7 @@ class Application(tk.Frame):
         master.title("input save helper")
         self.__create_widgets()
         self.__last_register=None
+        self.__thread=None
         self.manager=mgr(tk.Toplevel(), self.__callback_manager)
         self.manager.hide()
         self.master.protocol("WM_DELETE_WINDOW", self.__on_closing)
@@ -65,20 +66,25 @@ class Application(tk.Frame):
     def __on_register(self):
         try:
             self.__on_unregister()
-            self.__last_register = keyboard.add_hotkey(KEYS["START"], enter_code, args=(self.sv_code.get(),KEYS, ))
+            self.__last_register = keyboard.add_hotkey(KEYS["START"], self.__enter_code_helper, args=())
             self.sv_status.set("Registered")
             self.entry_code['state']=tk.DISABLED
         finally:
             pass
 
+    def __enter_code_helper(self):
+        self.__thread = t_enter_code(self.sv_code.get(), KEYS)
+        self.__thread.start()
+
     def __on_unregister(self):
         try:
             if self.__last_register: keyboard.remove_hotkey(self.__last_register)
+            if self.__thread: stop_thread(self.__thread)
+        finally:
             self.__last_register = None
+            self.__thread=None
             self.sv_status.set("Not registered")
             self.entry_code['state']=tk.NORMAL
-        finally:
-            pass
     
     def __on_manager(self):
         self.manager.show()
