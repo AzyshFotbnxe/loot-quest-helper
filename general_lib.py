@@ -19,7 +19,8 @@ class t_enter_code(threading.Thread):
     def run(self):
         enter_code(self.code, self.keys)
 
-##Copy and pasted from internet to stop a thread.
+## Copy and pasted from internet to stop a thread. 
+## https://stackoverflow.com/questions/323972/is-there-any-way-to-kill-a-thread
 def stop_thread(thread):
     _async_raise(thread.ident, SystemExit)
 
