@@ -1,6 +1,7 @@
 import pyautogui
 import keyboard
 
+"""Modified from the script created by Ciege#8558 on discord"""
 
 CODE = "1234-5678-9098-7654-3210-1234-5678-9098-7654-3210"
 KEY_START = "="
