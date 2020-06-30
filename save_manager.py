@@ -13,10 +13,12 @@ class save_manager(object):
         master.title("save manager")
         self.controller=save_manager_C(self)
         self.__create_widgets()
-        if func_load: self.controller.register_load(func_load)
+        self.indev=True
+        if func_load: 
+            self.controller.register_load(func_load)
+            self.indev=False
         self.master.protocol("WM_DELETE_WINDOW", self.hide)
         self.controller.on_refresh_click() #Refresh immediately after initialized.
-
 
     def __create_widgets(self):
         ## Create listbox.
@@ -62,11 +64,15 @@ class save_manager(object):
         self.button_select['state']=tk.DISABLED
 
     def hide(self):
-        self.master.withdraw()
-
+        if self.indev:
+            self.master.destroy()
+        else:
+            self.master.withdraw()
+            
     def show(self):
         self.master.update()
         self.master.deiconify()
+        
 #Model
 class save_manager_M():
     def __init__(self):

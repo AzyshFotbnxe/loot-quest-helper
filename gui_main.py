@@ -10,7 +10,7 @@ class Application(tk.Frame):
         master.title("input save helper")
         self.__create_widgets()
         self.__last_register=None
-        self.manager=mgr(tk.Tk(), self.__callback_manager)
+        self.manager=mgr(tk.Toplevel(), self.__callback_manager)
         self.manager.hide()
         self.master.protocol("WM_DELETE_WINDOW", self.__on_closing)
         self.pack()

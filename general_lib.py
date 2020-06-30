@@ -25,9 +25,11 @@ def filter_code(code):
 def format_code(code):
     tmp=''
     code = filter_code(code) #always filter. Totally optional.
-    while(len(code)>3):
-        tmp+=code[:4]+'-'
-        code=code[4:]
-    tmp+=code
-    if tmp[-1]=='-':tmp=tmp[:-1]
+    if code:
+        while(len(code)>3):
+            tmp+=code[:4]+'-'
+            code=code[4:]
+        tmp+=code
+        if tmp[-1]=='-':tmp=tmp[:-1]
     return tmp
+
