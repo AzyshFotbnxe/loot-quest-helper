@@ -1,14 +1,11 @@
 import tkinter as tk
 import keyboard
-from general_lib import formatcode
-from input_core import effector
-
+from general_lib import formatcode, enter_code, KEYS
 
 class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master=master)
         master.title("input save helper")
-        self.effector=effector()
         self.__create_widgets()
         self.__last_register=None
         self.pack()
@@ -23,10 +20,10 @@ class Application(tk.Frame):
         frame1.pack()
         label_notice=tk.Label(frame1, text=
         "Please set these in overwatch:\r" +
-        "{} as increment the number (interact)\r".format(self.effector.KEY_INCREMENT) +
-        "{} as decrement the number (melee) \r".format(self.effector.KEY_DECREMENT) + 
-        "{} as advance (crouch) \r".format(self.effector.KEY_ADVANCE) +
-        "after register, press {} to activate".format(self.effector.KEY_START)
+        "{} as increment the number (interact)\r".format(KEYS["INCREMENT"]) +
+        "{} as decrement the number (melee) \r".format(KEYS["DECREMENT"]) + 
+        "{} as advance (crouch) \r".format(KEYS["ADVANCE"]) +
+        "after register, press {} to activate".format(KEYS["START"])
         )
         label_notice.grid(row=0, column=0)
 
@@ -60,7 +57,7 @@ class Application(tk.Frame):
     def __on_register(self):
         try:
             self.__on_unregister()
-            self.__last_register = keyboard.add_hotkey(self.effector.KEY_START, self.effector.enter_code, args=(self.sv_code.get(), ))
+            self.__last_register = keyboard.add_hotkey(KEYS["START"], enter_code, args=(self.sv_code.get(),KEYS, ))
             self.sv_status.set("Registered")
             self.entry_code['state']=tk.DISABLED
         finally:
