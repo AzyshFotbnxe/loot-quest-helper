@@ -4,20 +4,23 @@ import json, os
 from general_lib import format_code
 
 #View
-class save_manager(tk.Frame):
+class save_manager(object):
     def __init__(self, master=None, func_load=None):
         """ Constructor. Initializes parameters. master """
-        super().__init__(master=master)
+        self.frame = tk.Frame(master)
+        self.frame.pack()
+        self.master=master
         master.title("save manager")
         self.controller=save_manager_C(self)
         self.__create_widgets()
         if func_load: self.controller.register_load(func_load)
+        self.master.protocol("WM_DELETE_WINDOW", self.hide)
         self.controller.on_refresh_click() #Refresh immediately after initialized.
-        self.pack()
+
 
     def __create_widgets(self):
         ## Create listbox.
-        frame1=tk.Frame(self)
+        frame1=tk.Frame(self.frame)
         frame1.pack()
         bar_list=tk.Scrollbar(frame1)
         bar_list.pack(side=tk.RIGHT, fill=tk.Y)
@@ -27,7 +30,7 @@ class save_manager(tk.Frame):
         bar_list.config(command=self.list_saves.yview)
 
         ## Create note and code.
-        frame2=tk.Frame(self)
+        frame2=tk.Frame(self.frame)
         frame2.pack()
         label_note=tk.Label(frame2, text="Note:")
         label_note.grid(row=0, column=0)
@@ -43,7 +46,7 @@ class save_manager(tk.Frame):
         self.entry_code.grid(row=1, column=1)
 
         ## Create buttons.
-        frame3=tk.Frame(self)
+        frame3=tk.Frame(self.frame)
         frame3.pack()
         self.button_new=tk.Button(frame3, text="new", command=self.controller.on_new_click)
         self.button_change=tk.Button(frame3, text="change", command=self.controller.on_change_click)
@@ -58,6 +61,12 @@ class save_manager(tk.Frame):
         self.button_select.grid(row=0, column=4)
         self.button_select['state']=tk.DISABLED
 
+    def hide(self):
+        self.master.withdraw()
+
+    def show(self):
+        self.master.update()
+        self.master.deiconify()
 #Model
 class save_manager_M():
     def __init__(self):
@@ -156,8 +165,7 @@ class save_manager_C():
         self.view.sv_note.set("")
     
     def on_select_click(self):
-        #TODO: communicate with the gui_main.
-        pass
+        self.func_load(self.view.sv_code.get())
 
     def on_code_change(self, *args):
         """Formatting the code to make it looks better."""
@@ -175,9 +183,10 @@ class save_manager_C():
 
     def register_load(self, func_load):
         if func_load:
-            self.view.button_load['state']=tk.NORMAL
+            self.view.button_select['state']=tk.NORMAL
             self.func_load=func_load
 
 if __name__ == "__main__":
-    app=save_manager(tk.Tk())
-    app.mainloop()
+    root=tk.Tk()
+    app=save_manager(root)
+    root.mainloop()

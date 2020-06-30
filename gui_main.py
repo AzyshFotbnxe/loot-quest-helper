@@ -1,13 +1,18 @@
 import tkinter as tk
 import keyboard
+from save_manager import save_manager as mgr
 from general_lib import format_code, enter_code, KEYS
 
 class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master=master)
+        self.master=master
         master.title("input save helper")
         self.__create_widgets()
         self.__last_register=None
+        self.manager=mgr(tk.Tk(), self.__callback_manager)
+        self.manager.hide()
+        self.master.protocol("WM_DELETE_WINDOW", self.__on_closing)
         self.pack()
 
     def __create_widgets(self):
@@ -34,6 +39,9 @@ class Application(tk.Frame):
 
         button_unregister=tk.Button(frame1_1, text='unregister', command=self.__on_unregister)
         button_unregister.grid(row=1)
+
+        button_manager=tk.Button(frame1_1, text="save manager", command=self.__on_manager)
+        button_manager.grid(row=2)
 
         self.sv_status=tk.StringVar()
         self.sv_status.set("Not registered")
@@ -71,6 +79,16 @@ class Application(tk.Frame):
             self.entry_code['state']=tk.NORMAL
         finally:
             pass
+    
+    def __on_manager(self):
+        self.manager.show()
+
+    def __callback_manager(self, code):
+        self.sv_code.set(code)
+
+    def __on_closing(self):
+        self.manager.master.destroy()
+        self.master.destroy()
 
 if __name__ == "__main__":
     app=Application(tk.Tk())
