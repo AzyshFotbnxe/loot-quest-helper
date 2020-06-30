@@ -21,7 +21,7 @@ class save_manager(tk.Frame):
         frame1.pack()
         bar_list=tk.Scrollbar(frame1)
         bar_list.pack(side=tk.RIGHT, fill=tk.Y)
-        self.list_saves=tk.Listbox(frame1, width=55, yscrollcommand=bar_list.set)
+        self.list_saves=tk.Listbox(frame1, width=55, yscrollcommand=bar_list.set, exportselection=False)
         self.list_saves.bind("<<ListboxSelect>>", self.controller.on_list_select)
         self.list_saves.pack()
         bar_list.config(command=self.list_saves.yview)
@@ -112,7 +112,6 @@ class save_manager_C():
             item=self.model.request(index[0])
             self.view.sv_note.set(item[0])
             self.view.sv_code.set(item[1])
-            print(index, item) #Debug print
 
     def on_new_click(self):
         code = self.view.sv_code.get()
@@ -153,6 +152,8 @@ class save_manager_C():
         tmp=self.model.roster()
         for i in tmp:
             self.view.list_saves.insert('end', i)
+        self.view.sv_code.set("")
+        self.view.sv_note.set("")
     
     def on_select_click(self):
         #TODO: communicate with the gui_main.
