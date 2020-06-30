@@ -9,6 +9,7 @@ KEYS={
     'DECREMENT': "v",
     "ADVANCE": "ctrl",
     "START": "=",
+    "STOP": "-",
     "ITEMONLY": "r"
 }
 class t_enter_code(threading.Thread):
