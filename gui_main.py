@@ -29,6 +29,7 @@ class Application(tk.Frame):
         "{} as increment the number (interact)\r".format(KEYS["INCREMENT"]) +
         "{} as decrement the number (melee) \r".format(KEYS["DECREMENT"]) + 
         "{} as advance (crouch) \r".format(KEYS["ADVANCE"]) +
+        "{} as item only (reload) \r".format(KEYS["ITEMONLY"]) +
         "after register, press {} to activate".format(KEYS["START"])
         )
         label_notice.grid(row=0, column=0)
@@ -36,13 +37,21 @@ class Application(tk.Frame):
         frame1_1=tk.Frame(frame1)
         frame1_1.grid(row=0, column=1)
         button_register=tk.Button(frame1_1, text='register', command=self.__on_register)
-        button_register.grid(row=0)
+        button_register.grid(row=0, column=0)
 
         button_deregister=tk.Button(frame1_1, text='deregister', command=self.__on_deregister)
-        button_deregister.grid(row=1)
+        button_deregister.grid(row=0, column=1)
+
+        self.iv_item=tk.IntVar()
+        self.checkbox_item=tk.Checkbutton(frame1_1, text='item only', variable=self.iv_item)
+        self.checkbox_item.grid(row=1, column=0)
+
+        self.iv_only_adv=tk.IntVar()
+        self.checkbox_adv=tk.Checkbutton(frame1_1, text='advance only', variable=self.iv_only_adv)
+        self.checkbox_adv.grid(row=1, column=1)
 
         button_manager=tk.Button(frame1_1, text="save manager", command=self.__on_manager)
-        button_manager.grid(row=2)
+        button_manager.grid(row=3)
 
         self.sv_status=tk.StringVar()
         self.sv_status.set("Not registered")
@@ -69,11 +78,13 @@ class Application(tk.Frame):
             self.__last_register = keyboard.add_hotkey(KEYS["START"], self.__enter_code_helper, args=())
             self.sv_status.set("Registered")
             self.entry_code['state']=tk.DISABLED
+            self.checkbox_item['state']=tk.DISABLED
+            self.checkbox_adv['state']=tk.DISABLED
         finally:
             pass
 
     def __enter_code_helper(self):
-        self.__thread = t_enter_code(self.sv_code.get(), KEYS)
+        self.__thread = t_enter_code(self.sv_code.get(), KEYS, self.iv_item.get(), self.iv_only_adv.get())
         self.__thread.start()
 
     def __on_deregister(self):
@@ -85,6 +96,8 @@ class Application(tk.Frame):
             self.__thread=None
             self.sv_status.set("Not registered")
             self.entry_code['state']=tk.NORMAL
+            self.checkbox_item['state']=tk.NORMAL
+            self.checkbox_adv['state']=tk.NORMAL
     
     def __on_manager(self):
         self.manager.show()

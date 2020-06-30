@@ -9,7 +9,8 @@ KEYS={
     'INCREMENT': "f",
     'DECREMENT': "v",
     "ADVANCE": "ctrl",
-    "START": "="
+    "START": "=",
+    "ITEMONLY": "r"
 }
 
 def enter_code(code, keys):
