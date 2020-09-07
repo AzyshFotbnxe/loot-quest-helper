@@ -35,7 +35,8 @@ def _async_raise(tid, exctype):
         exctype = type(exctype)
     res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
     if res == 0:
-        raise ValueError("invalid thread id")
+        # raise ValueError("invalid thread id")
+        pass # I don't need it raise error here.
     elif res != 1:
         # """if it returns a number greater than one, you're in trouble,
         # and you should call it again with exc=NULL to revert the effect"""
@@ -50,7 +51,7 @@ def enter_code(code, keys, item_only=False, only_advance=False):
                 pyautogui.typewrite([keys["DECREMENT"]] * (10-digit), interval=0.1)
             else:
                 pyautogui.typewrite([keys["INCREMENT"]] * digit, interval=0.1)
-            pyautogui.typewrite(1*bool(item_only)*[keys['ITEMONLY']]+[keys["ADVANCE"]])
+    pyautogui.typewrite('q')
 
 def filter_code(code):
     tmp=filter(lambda ch: ch in '0123456789-', code)
