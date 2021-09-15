@@ -24,14 +24,14 @@ class Application(tk.Frame):
 
         frame1=tk.Frame(self)
         frame1.pack()
-        label_notice=tk.Label(frame1, text=
-        "Please set these in overwatch:\r" +
-        "{} as increment the number (interact)\r".format(KEYS["INCREMENT"]) +
-        "{} as decrement the number (melee) \r".format(KEYS["DECREMENT"]) + 
-        "{} as advance (crouch) \r".format(KEYS["ADVANCE"]) +
-        "{} as item only (reload) \r".format(KEYS["ITEMONLY"]) +
-        "after register, \r" + 
-        "press {} to start, {} to stop.".format(KEYS["START"], KEYS["STOP"]) 
+        label_notice=tk.Label(frame1, 
+        text=f'''Please set these in overwatch:
+        {KEYS["INCREMENT"]} as increment the number (interact)
+        {KEYS["DECREMENT"]} as decrement the number (melee)
+        {KEYS["ADVANCE"]} as advance (crouch)
+        {KEYS["ITEMONLY"]} as item only (reload)
+        after register,
+        press {KEYS["START"]} to start, {KEYS["STOP"]} to stop.'''
         )
         label_notice.grid(row=0, column=0)
 
@@ -43,9 +43,9 @@ class Application(tk.Frame):
         button_deregister=tk.Button(frame1_1, text='deregister', command=self.__on_deregister)
         button_deregister.grid(row=0, column=1)
 
-        self.iv_item=tk.IntVar()
-        self.checkbox_item=tk.Checkbutton(frame1_1, text='item only', variable=self.iv_item)
-        self.checkbox_item.grid(row=1, column=0)
+        # self.iv_item=tk.IntVar()
+        # self.checkbox_item=tk.Checkbutton(frame1_1, text='item only', variable=self.iv_item)
+        # self.checkbox_item.grid(row=1, column=0)
 
         self.iv_only_adv=tk.IntVar()
         self.checkbox_adv=tk.Checkbutton(frame1_1, text='advance only', variable=self.iv_only_adv)
@@ -53,7 +53,7 @@ class Application(tk.Frame):
 
         button_manager=tk.Button(frame1_1, text="save manager", command=self.__on_manager)
         button_manager.grid(row=3)
-
+        
         self.sv_status=tk.StringVar()
         self.sv_status.set("Not registered")
         label_status=tk.Label(self, textvariable=self.sv_status)
@@ -79,13 +79,13 @@ class Application(tk.Frame):
             self.__last_register = [keyboard.add_hotkey(KEYS["START"], self.__enter_code_helper, args=()), keyboard.add_hotkey(KEYS["STOP"], self.__on_deregister, args=())]
             self.sv_status.set("Registered")
             self.entry_code['state']=tk.DISABLED
-            self.checkbox_item['state']=tk.DISABLED
+            # self.checkbox_item['state']=tk.DISABLED
             self.checkbox_adv['state']=tk.DISABLED
         finally:
             pass
 
     def __enter_code_helper(self):
-        self.__thread = t_enter_code(self.sv_code.get(), KEYS, self.iv_item.get(), self.iv_only_adv.get())
+        self.__thread = t_enter_code(self.sv_code.get(), KEYS, False, self.iv_only_adv.get())
         self.__thread.start()
 
     def __on_deregister(self):
@@ -99,7 +99,7 @@ class Application(tk.Frame):
             self.__thread=None
             self.sv_status.set("Not registered")
             self.entry_code['state']=tk.NORMAL
-            self.checkbox_item['state']=tk.NORMAL
+            # self.checkbox_item['state']=tk.NORMAL
             self.checkbox_adv['state']=tk.NORMAL
     
     def __on_manager(self):

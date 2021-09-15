@@ -42,8 +42,10 @@ def _async_raise(tid, exctype):
         # and you should call it again with exc=NULL to revert the effect"""
         ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
         raise SystemError("PyThreadState_SetAsyncExc failed")
+    print("interrupted")
 
 def enter_code(code, keys, item_only=False, only_advance=False):
+    print("activated")
     for char in code:
         if char in "0123456789":
             digit = int(char)
@@ -51,7 +53,8 @@ def enter_code(code, keys, item_only=False, only_advance=False):
                 pyautogui.typewrite([keys["DECREMENT"]] * (10-digit), interval=0.1)
             else:
                 pyautogui.typewrite([keys["INCREMENT"]] * digit, interval=0.1)
-    pyautogui.typewrite('q')
+            pyautogui.typewrite([keys['ADVANCE']], interval=0.1)
+    # pyautogui.typewrite('q')
 
 def filter_code(code):
     tmp=filter(lambda ch: ch in '0123456789-', code)

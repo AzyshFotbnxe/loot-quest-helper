@@ -21,7 +21,7 @@ def enter_code(code, keys):
                 pyautogui.typewrite([keys["DECREMENT"]] * (10-digit), interval=0.1)
             else:
                 pyautogui.typewrite([keys["INCREMENT"]] * digit, interval=0.1)
-            pyautogui.typewrite([keys["ADVANCE"]], interval = 0.1)
+            pyautogui.press(keys["ADVANCE"], interval = 0.1)
 
 # class effector:
 #     def __init__(self):
